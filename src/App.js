@@ -30,6 +30,6 @@ const Counter = ({ value, setValue }) => (
     </div>
 )
 export default connect((props, ref) => ({
-    value: 'counterValue',
+    value: 'hackathon',
     setValue: value => ref('hackathon').set(value)
 }))(Counter)
