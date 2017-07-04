@@ -15,21 +15,40 @@ firebase.initializeApp({
     databaseURL: firebase_config_url
 });
 
-const Counter = ({ value, setValue }) => (
-    <div>
-        <AceEditor
-            mode="javascript"
-            theme="ambiance"
-            onChange={setValue}
-            name="hackerid"
-            height='100vw'
-            width='100vw'
-            value={value}
-            editorProps={{$blockScrolling: true}}
-        />
-    </div>
-);
+class Counter extends React.Component {
+    ComponentDidMount() {
+        this.setRoom();
+    }
+
+    // add a new room to firebase if one does not currently exist
+    setRoom() {
+        if(this.props.match.params.room) {
+            var main = firebase.database().ref();
+            var newRef = main.child(this.props.match.params.room);
+            newRef.set('');
+        }
+    }
+
+    render() {
+        return (
+        <div>
+            <AceEditor
+                mode="javascript"
+                theme="ambiance"
+                onChange={this.props.setValue}
+                name="hackerid"
+                height='100vw'
+                width='100vw'
+                value={this.props.value}
+                editorProps={{$blockScrolling: true}}
+            />
+        </div>
+        )
+    }
+
+}
+
 export default connect((props, ref) => ({
-    value: 'hackathon',
+    value: props.match.params.room,
     setValue: value => ref(props.match.params.room).set(value)
 }))(Counter)
