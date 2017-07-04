@@ -23,8 +23,8 @@ class Counter extends React.Component {
     // add a new room to firebase if one does not currently exist
     setRoom() {
         if(this.props.match.params.room) {
-            var main = firebase.database().ref();
-            var newRef = main.child(this.props.match.params.room);
+            var mainRef = firebase.database().ref();
+            var newRef = mainRef.child(this.props.match.params.room);
             newRef.set('');
         }
     }
