@@ -28,8 +28,8 @@ const Counter = ({ value, setValue }) => (
             editorProps={{$blockScrolling: true}}
         />
     </div>
-)
+);
 export default connect((props, ref) => ({
     value: 'hackathon',
-    setValue: value => ref('hackathon').set(value)
+    setValue: value => ref(props.match.params.room).set(value)
 }))(Counter)
