@@ -26,11 +26,10 @@ class Counter extends React.Component {
             timer: 0
         };
         this.handleChange = this.handleChange.bind(this);
-
     }
 
     componentDidMount() {
-        this.setRoom();
+        setTimeout(this.setRoom(), 7000);
         this.setTimer();
         this.interval_timer = '';
     }
@@ -55,10 +54,13 @@ class Counter extends React.Component {
 
     // add a new room to firebase if one does not currently exist
     setRoom() {
-        if(this.props.match.params.room) {
+        if (this.props.match.params.room) {
             var mainRef = firebase.database().ref();
             var newRef = mainRef.child(this.props.match.params.room);
-            newRef.set('');
+            // only set the child ref to blank if it is a new room without any text in it
+            if (newRef.child(this.props.match.params.room) === '') {
+                newRef.set('');
+            }
         }
     }
 
@@ -67,18 +69,15 @@ class Counter extends React.Component {
         var keycode = event.keyCode;
         var valid =
             (keycode > 47 && keycode < 58)   || // number keys
-            keycode === 32 || keycode === 13   || // spacebar & return key(s)
+            keycode === 32 || keycode === 13 || // spacebar & return key(s)
             (keycode > 64 && keycode < 91)   || // letter keys
             (keycode > 95 && keycode < 112)  || // numpad keys
-            (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
+            // (keycode > 185 && keycode < 193) || // ;=,-./` (in order)
             (keycode > 218 && keycode < 223);   // [\]' (in order)
 
         if (valid) {
             this.setState({numTypedChars: this.state.numTypedChars + 1});
             console.log('this.numTypedChars : ', this.state.numTypedChars);
-
-            // START TIMER
-            // ( (numTypedChars / 5) - backspaces ) / mins
         }
 
 
