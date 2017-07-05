@@ -30,7 +30,7 @@ class Counter extends React.Component {
 
     componentDidMount() {
         setTimeout(this.setRoom(), 7000);
-        // this.setTimer();
+        this.setTimer();
         this.interval_timer = '';
     }
 
@@ -57,6 +57,7 @@ class Counter extends React.Component {
         if (this.props.match.params.room) {
             var mainRef = firebase.database().ref();
             var newRef = mainRef.child(this.props.match.params.room);
+            // only set the child ref to blank if it is a new room without any text in it
             if (newRef.child(this.props.match.params.room) === '') {
                 newRef.set('');
             }
