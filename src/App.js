@@ -26,11 +26,10 @@ class Counter extends React.Component {
             timer: 0
         };
         this.handleChange = this.handleChange.bind(this);
-
+        this.setRoom();
     }
 
     componentDidMount() {
-        this.setRoom();
         this.setTimer();
         this.interval_timer = '';
     }
@@ -55,7 +54,7 @@ class Counter extends React.Component {
 
     // add a new room to firebase if one does not currently exist
     setRoom() {
-        if(this.props.match.params.room) {
+        if(!firebase.database().ref(this.props.match.params.room)) {
             var mainRef = firebase.database().ref();
             var newRef = mainRef.child(this.props.match.params.room);
             newRef.set('');
@@ -76,9 +75,6 @@ class Counter extends React.Component {
         if (valid) {
             this.setState({numTypedChars: this.state.numTypedChars + 1});
             console.log('this.numTypedChars : ', this.state.numTypedChars);
-
-            // START TIMER
-            // ( (numTypedChars / 5) - backspaces ) / mins
         }
 
 
