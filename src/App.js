@@ -26,15 +26,16 @@ class Counter extends React.Component {
             timer: 0
         };
         this.handleChange = this.handleChange.bind(this);
+
+    }
+
+    componentDidMount() {
+        this.setRoom();
         this.setTimer();
         this.interval_timer = '';
     }
 
-    ComponentDidMount() {
-        this.setRoom();
-    }
-
-    ComponentDidUnmount() {
+    componentWillUnmount() {
         clearInterval(this.interval_timer);
     }
 
